@@ -1,6 +1,8 @@
  var admin = require('firebase-admin');
  var serviceAccount = require('./green-energy-4334a-firebase-adminsdk-svgj4-1016778b5e.json');
 
+ import { timer_par } from 'timer';
+
  admin.initializeApp({
      credential: admin.credential.cert(serviceAccount),
      databaseURL: 'https://green-energy-4334a.firebaseio.com'
@@ -38,89 +40,6 @@
      { topic: "anaquel/fs/hora/led", value: "" },
      { topic: "anaquel/fs/hora/warmlight", value: "" }
  ];
-
- timer_par = {
-     fs: {
-         led: {
-             start_hour: 11,
-             start_minute: 53,
-             finish_hour: 11,
-             finish_minute: 55
-         },
-         vent: {
-             start_hour: 11,
-             start_minute: 54,
-             finish_hour: 11,
-             finish_minute: 56
-         },
-         warm: {
-             start_hour: 11,
-             start_minute: 54,
-             finish_hour: 11,
-             finish_minute: 56
-         }
-     },
-     rs: {
-         led: {
-             start_hour: 10,
-             start_minute: 22,
-             finish_hour: 10,
-             finish_minute: 25
-         },
-         vent: {
-             start_hour: 10,
-             start_minute: 22,
-             finish_hour: 10,
-             finish_minute: 24
-         },
-         warm: {
-             start_hour: 10,
-             start_minute: 19,
-             finish_hour: 10,
-             finish_minute: 22
-         }
-     },
-     ws: {
-         led: {
-             start_hour: 10,
-             start_minute: 22,
-             finish_hour: 10,
-             finish_minute: 25
-         },
-         vent: {
-             start_hour: 10,
-             start_minute: 22,
-             finish_hour: 10,
-             finish_minute: 24
-         },
-         warm: {
-             start_hour: 10,
-             start_minute: 19,
-             finish_hour: 10,
-             finish_minute: 22
-         }
-     },
-     bs: {
-         led: {
-             start_hour: 10,
-             start_minute: 22,
-             finish_hour: 10,
-             finish_minute: 25
-         },
-         vent: {
-             start_hour: 10,
-             start_minute: 22,
-             finish_hour: 10,
-             finish_minute: 24
-         },
-         warm: {
-             start_hour: 10,
-             start_minute: 19,
-             finish_hour: 10,
-             finish_minute: 22
-         }
-     }
- }
 
 
  var client = mqtt.connect("mqtt://" + server + ":" + port, { keepalive: 60, clean: true, will: null });
@@ -203,19 +122,17 @@
 
  function control_fs() {
      //console.log(moment().format());
-     if (timer(timer_par.fs.led, moment().hours(), moment().minutes())) client.publish(datos[0].topic, 'off');
-     else client.publish(datos[0].topic, 'on'); //console.log("led")
+     if (timer(timer_par.fs.led, moment().hours(), moment().minutes()) && (datos[0].value != 'off')) client.publish(datos[0].topic, 'off');
+     else if (datos[0].value == 'off') client.publish(datos[0].topic, 'on'); //console.log("led")
 
-     if (timer(timer_par.fs.warm, moment().hours(), moment().minutes())) client.publish(datos[2].topic, 'off');
-     else {
-         client.publish(datos[2].topic, 'on'); // console.log("warm")
-         if ((datos[4].value >= 24)) client.publish(datos[2].topic, 'on');
-         if ((datos[4].value <= 22)) client.publish(datos[2].topic, 'off');
+     if (timer(timer_par.fs.warm, moment().hours(), moment().minutes())) {
+         if ((datos[4].value >= 24) && (datos[2].value == 'off')) client.publish(datos[2].topic, 'on');
+         if ((datos[4].value <= 22) && (datos[2].value != 'off')) client.publish(datos[2].topic, 'off');
      }
 
      // VENT
-     if ((datos[4].value >= 26)) client.publish(datos[1].topic, 'off');
-     if ((datos[4].value <= 22)) client.publish(datos[1].topic, 'on');
+     if ((datos[4].value >= 26) && (datos[1].value != 'off')) client.publish(datos[1].topic, 'off');
+     if ((datos[4].value <= 22) && (datos[1].value != 'on')) client.publish(datos[1].topic, 'on');
 
  }
 
