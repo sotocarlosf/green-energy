@@ -1,8 +1,6 @@
  var admin = require('firebase-admin');
  var serviceAccount = require('./green-energy-4334a-firebase-adminsdk-svgj4-1016778b5e.json');
 
- import { timer_par } from 'timer';
-
  admin.initializeApp({
      credential: admin.credential.cert(serviceAccount),
      databaseURL: 'https://green-energy-4334a.firebaseio.com'
@@ -41,6 +39,88 @@
      { topic: "anaquel/fs/hora/warmlight", value: "" }
  ];
 
+ let timer_par = {
+     fs: {
+         led: {
+             start_hour: 11,
+             start_minute: 53,
+             finish_hour: 11,
+             finish_minute: 55
+         },
+         vent: {
+             start_hour: 11,
+             start_minute: 54,
+             finish_hour: 11,
+             finish_minute: 56
+         },
+         warm: {
+             start_hour: 11,
+             start_minute: 54,
+             finish_hour: 11,
+             finish_minute: 56
+         }
+     },
+     rs: {
+         led: {
+             start_hour: 10,
+             start_minute: 22,
+             finish_hour: 10,
+             finish_minute: 25
+         },
+         vent: {
+             start_hour: 10,
+             start_minute: 22,
+             finish_hour: 10,
+             finish_minute: 24
+         },
+         warm: {
+             start_hour: 10,
+             start_minute: 19,
+             finish_hour: 10,
+             finish_minute: 22
+         }
+     },
+     ws: {
+         led: {
+             start_hour: 10,
+             start_minute: 22,
+             finish_hour: 10,
+             finish_minute: 25
+         },
+         vent: {
+             start_hour: 10,
+             start_minute: 22,
+             finish_hour: 10,
+             finish_minute: 24
+         },
+         warm: {
+             start_hour: 10,
+             start_minute: 19,
+             finish_hour: 10,
+             finish_minute: 22
+         }
+     },
+     bs: {
+         led: {
+             start_hour: 10,
+             start_minute: 22,
+             finish_hour: 10,
+             finish_minute: 25
+         },
+         vent: {
+             start_hour: 10,
+             start_minute: 22,
+             finish_hour: 10,
+             finish_minute: 24
+         },
+         warm: {
+             start_hour: 10,
+             start_minute: 19,
+             finish_hour: 10,
+             finish_minute: 22
+         }
+     }
+ }
 
  var client = mqtt.connect("mqtt://" + server + ":" + port, { keepalive: 60, clean: true, will: null });
  client.on("connect", function() { //this library automatically reconnects on errors

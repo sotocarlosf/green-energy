@@ -1,4 +1,4 @@
-timer_par = {
+export var timer_par = {
     fs: {
         led: {
             start_hour: 11,
@@ -81,4 +81,4 @@ timer_par = {
     }
 }
 
-export { timer_par };
+export function timer() {}
