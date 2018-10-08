@@ -126,7 +126,7 @@
  var client = mqtt.connect("mqtt://" + server + ":" + port, { keepalive: 60, clean: true, will: null });
  client.on("connect", function() { //this library automatically reconnects on errors
      try {
-         for (i = 4; i < datos.length; i++) {
+         for (i = 0; i < datos.length; i++) {
              client.subscribe(datos[i].topic, { qos: 2, retain: true }) //chainable API
              if (i <= 3) client.publish(datos[i].topic, 'off');
          }
@@ -200,21 +200,25 @@
      }
  }
 
- function control_bs() {
+ function control(timer_js) {
      //console.log(moment().format());
-     if (timer(timer_par.bs.led, moment().hours(), moment().minutes())) client.publish(datos[0].topic, 'off');
-     else client.publish(datos[0].topic, 'on'); //console.log("led")
+     //console.log(timer_par.fs.led);
+     if (timer(timer_js.led, moment().hours(), moment().minutes()) && (datos[0].value != 'off')) {
+         client.publish(datos[0].topic, 'off');
+     } else {
+         if (!timer(timer_js.led, moment().hours(), moment().minutes()) && (datos[0].value == 'off')) {
+             client.publish(datos[0].topic, 'on'); //console.log("led")
+         }
+     }
 
-     if (timer(timer_par.bs.warm, moment().hours(), moment().minutes())) client.publish(datos[2].topic, 'off');
-     else {
-         client.publish(datos[2].topic, 'on'); // console.log("warm")
-         if ((datos[4].value >= 24)) client.publish(datos[2].topic, 'on');
-         if ((datos[4].value <= 22)) client.publish(datos[2].topic, 'off');
+     if (timer(timer_js.warm, moment().hours(), moment().minutes())) {
+         if ((datos[4].value >= 24) && (datos[2].value == 'off')) client.publish(datos[2].topic, 'on');
+         if ((datos[4].value <= 22) && (datos[2].value != 'off')) client.publish(datos[2].topic, 'off');
      }
 
      // VENT
-     if ((datos[4].value >= 26)) client.publish(datos[1].topic, 'off');
-     if ((datos[4].value <= 22)) client.publish(datos[1].topic, 'on');
+     if ((datos[4].value >= 26) && (datos[1].value != 'off')) client.publish(datos[1].topic, 'off');
+     if ((datos[4].value <= 22) && (datos[1].value != 'on')) client.publish(datos[1].topic, 'on');
 
  }
 
@@ -227,7 +231,7 @@
      //console.log(timer_fs_led);
      //console.log(timer_fs_warmlight);
      if (datos[7].value == "on") {
-         control_bs();
+         control(timer_par.bs);
      }
 
 

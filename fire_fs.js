@@ -200,12 +200,18 @@
      }
  }
 
- function control_fs() {
+ function control(timer_js) {
      //console.log(moment().format());
-     if (timer(timer_par.fs.led, moment().hours(), moment().minutes()) && (datos[0].value != 'off')) client.publish(datos[0].topic, 'off');
-     else if (datos[0].value == 'off') client.publish(datos[0].topic, 'on'); //console.log("led")
+     //console.log(timer_par.fs.led);
+     if (timer(timer_js.led, moment().hours(), moment().minutes()) && (datos[0].value != 'off')) {
+         client.publish(datos[0].topic, 'off');
+     } else {
+         if (!timer(timer_js.led, moment().hours(), moment().minutes()) && (datos[0].value == 'off')) {
+             client.publish(datos[0].topic, 'on'); //console.log("led")
+         }
+     }
 
-     if (timer(timer_par.fs.warm, moment().hours(), moment().minutes())) {
+     if (timer(timer_js.warm, moment().hours(), moment().minutes())) {
          if ((datos[4].value >= 24) && (datos[2].value == 'off')) client.publish(datos[2].topic, 'on');
          if ((datos[4].value <= 22) && (datos[2].value != 'off')) client.publish(datos[2].topic, 'off');
      }
@@ -225,7 +231,7 @@
      //console.log(timer_fs_led);
      //console.log(timer_fs_warmlight);
      if (datos[7].value == "on") {
-         control_fs();
+         control(timer_par.fs);
      }
 
 
