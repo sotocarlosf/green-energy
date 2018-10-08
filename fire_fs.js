@@ -125,7 +125,7 @@
  var client = mqtt.connect("mqtt://" + server + ":" + port, { keepalive: 60, clean: true, will: null });
  client.on("connect", function() { //this library automatically reconnects on errors
      try {
-         for (i = 4; i < datos.length; i++) {
+         for (i = 0; i < datos.length; i++) {
              client.subscribe(datos[i].topic, { qos: 2, retain: true }) //chainable API
              console.log(datos[i].topic);
              //if (i <= 3) client.publish(datos[i].topic, 'off');
