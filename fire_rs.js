@@ -215,15 +215,14 @@
 
      if (timer(timer_js.warm, moment().hours(), moment().minutes())) {
          if ((datos[4].value >= 24) && (datos[2].value == 'off')) client.publish(datos[2].topic, 'on');
-         if ((datos[4].value <= 22) && (datos[2].value != 'off')) client.publish(datos[2].topic, 'off');
-     }
+         else if ((datos[4].value <= 22) && (datos[2].value != 'off')) client.publish(datos[2].topic, 'off');
+     } else if (datos[2].value == 'off') client.publish(datos[2].topic, 'on');
 
      // VENT
      if ((datos[4].value >= 26) && (datos[1].value != 'off')) client.publish(datos[1].topic, 'off');
      if ((datos[4].value <= 22) && (datos[1].value != 'on')) client.publish(datos[1].topic, 'on');
 
  }
-
  let automatic_fs = true;
  let min = moment().minutes();
 

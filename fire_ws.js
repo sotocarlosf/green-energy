@@ -200,6 +200,7 @@
      }
  }
 
+
  function control(timer_js) {
      //console.log(moment().format());
      //console.log(timer_par.fs.led);
@@ -213,8 +214,8 @@
 
      if (timer(timer_js.warm, moment().hours(), moment().minutes())) {
          if ((datos[4].value >= 24) && (datos[2].value == 'off')) client.publish(datos[2].topic, 'on');
-         if ((datos[4].value <= 22) && (datos[2].value != 'off')) client.publish(datos[2].topic, 'off');
-     }
+         else if ((datos[4].value <= 22) && (datos[2].value != 'off')) client.publish(datos[2].topic, 'off');
+     } else if (datos[2].value == 'off') client.publish(datos[2].topic, 'on');
 
      // VENT
      if ((datos[4].value >= 26) && (datos[1].value != 'off')) client.publish(datos[1].topic, 'off');
