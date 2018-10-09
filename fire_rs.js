@@ -176,10 +176,22 @@
  })
 
  function timer(timer, current_hour, current_minute) {
-     if (((timer.start_hour <= current_hour) && (timer.start_minute <= current_minute)) &&
-         ((timer.finish_hour >= current_hour) && (timer.finish_minute > current_minute)))
-         return true;
-     else return false;
+     // if (((timer.start_hour <= current_hour) && (timer.start_minute <= current_minute)) &&
+     //     ((timer.finish_hour >= current_hour) && (timer.finish_minute > current_minute)))
+
+     if ((timer.start_hour <= current_hour) && (timer.finish_hour >= current_hour)) {
+         if ((timer.start_hour == current_hour) && (timer.finish_hour == current_hour))
+             if ((timer.start_minute <= current_minute) && (timer.finish_minute > current_minute)) return true;
+             else return false;
+         else if (timer.start_hour == current_hour)
+             if (timer.start_minute <= current_minute) return true;
+             else return false
+         else if (timer.finish_hour == current_hour)
+             if (timer.finish_minute > current_minute) return true;
+             else return false;
+         else return true;
+     }
+     return false;
  }
 
  function write_timer(timer, datos) {

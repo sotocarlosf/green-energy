@@ -26,10 +26,10 @@ function read() {
 timer_par = {
     fs: {
         led: {
-            start_hour: 10,
-            start_minute: 22,
-            finish_hour: 10,
-            finish_minute: 25
+            start_hour: 17,
+            start_minute: 50,
+            finish_hour: 18,
+            finish_minute: 10
         },
         vent: {
             start_hour: 10,
@@ -114,10 +114,22 @@ var datos = {
 }
 
 function timer(timer, current_hour, current_minute) {
-    if (((timer.start_hour <= current_hour) && (timer.start_minute <= current_minute)) &&
-        ((timer.finish_hour >= current_hour) && (timer.finish_minute > current_minute)))
-        return true;
-    else return false;
+    // if (((timer.start_hour <= current_hour) && (timer.start_minute <= current_minute)) &&
+    //     ((timer.finish_hour >= current_hour) && (timer.finish_minute > current_minute)))
+
+    if ((timer.start_hour <= current_hour) && (timer.finish_hour >= current_hour)) {
+        if ((timer.start_hour == current_hour) && (timer.finish_hour == current_hour))
+            if ((timer.start_minute <= current_minute) && (timer.finish_minute > current_minute)) return true;
+            else return false;
+        else if (timer.start_hour == current_hour)
+            if (timer.start_minute <= current_minute) return true;
+            else return false
+        else if (timer.finish_hour == current_hour)
+            if (timer.finish_minute > current_minute) return true;
+            else return false;
+        else return true;
+    }
+    return false;
 }
 
 // function timer(start_hour, start_minute, finish_hour, finish_minute, current_hour, current_minute) {
@@ -130,9 +142,10 @@ let timerId = setInterval(function() {
     //console.log(moment().minutes());
     // console.log(moment().hours());
     // console.log(timer(0, 43, 0, 47, moment().hours(), moment().minutes()));
+
     console.log(moment().format("dddd, MMMM Do YYYY"));
-    if (timer(timer_par.fs.led, moment().hours(), moment().minutes())) console.log("led")
-    if (timer(timer_par.fs.vent, moment().hours(), moment().minutes())) console.log("vent")
-    if (timer(timer_par.fs.warm, moment().hours(), moment().minutes())) console.log("warm")
+    if (timer(timer_par.fs.led, 17, 50)) console.log("led")
+        //if (timer(timer_par.fs.vent, moment().hours(), moment().minutes())) console.log("vent")
+        //if (timer(timer_par.fs.warm, moment().hours(), moment().minutes())) console.log("warm")
 }, 1000);
 console.log(datos.fs.led);
