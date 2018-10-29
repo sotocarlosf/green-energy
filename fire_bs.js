@@ -171,7 +171,7 @@ client.on('message', function(topic, message) {
             datos[9].value = message.toString();
             write_timer(timer_par.bs.warm, datos[9]);
             break;
-        case "anaquel/bs/co2":
+        case "anaquel/bs/lux":
             datos[10].value = message.toString();
             break;
     }
