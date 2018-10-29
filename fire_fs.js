@@ -263,8 +263,8 @@
                  Temperature: datos[4].value,
                  Humidity: datos[5].value,
                  CO2: datos[6].value,
-                 Automatic: datos[7].value,
-                 Lux: datos[10].value
+                 Lux: datos[10].value,
+                 Automatic: datos[7].value
              },
              datetime: {
                  Time: moment().format("h:mm:ss"),

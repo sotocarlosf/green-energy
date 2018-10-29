@@ -36,7 +36,8 @@
      { topic: "anaquel/rs/co2", value: "" },
      { topic: "anaquel/rs/automatic", value: "" },
      { topic: "anaquel/rs/hora/led", value: "" },
-     { topic: "anaquel/rs/hora/warmlight", value: "" }
+     { topic: "anaquel/rs/hora/warmlight", value: "" },
+     { topic: "anaquel/rs/lux", value: "" }
  ];
 
  timer_par = {
@@ -172,6 +173,9 @@
              datos[9].value = message.toString();
              write_timer(timer_par.rs.warm, datos[9]);
              break;
+         case "anaquel/rs/lux":
+             datos[10].value = message.toString();
+             break;
      }
  })
 
@@ -256,6 +260,7 @@
                  Temperature: datos[4].value,
                  Humidity: datos[5].value,
                  CO2: datos[6].value,
+                 Lux: datos[10].value,
                  Automatic: datos[7].value
              },
              datetime: {
