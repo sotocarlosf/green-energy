@@ -36,7 +36,8 @@ var datos = [
     { topic: "anaquel/bs/co2", value: "" },
     { topic: "anaquel/bs/automatic", value: "" },
     { topic: "anaquel/bs/hora/led", value: "" },
-    { topic: "anaquel/bs/hora/warmlight", value: "" }
+    { topic: "anaquel/bs/hora/warmlight", value: "" },
+    { topic: "anaquel/bs/lux", value: "" }
 ];
 
 let timer_par = {
@@ -170,6 +171,9 @@ client.on('message', function(topic, message) {
             datos[9].value = message.toString();
             write_timer(timer_par.bs.warm, datos[9]);
             break;
+        case "anaquel/bs/co2":
+            datos[10].value = message.toString();
+            break;
     }
 })
 
@@ -258,7 +262,8 @@ function read() {
                 Temperature: datos[4].value,
                 Humidity: datos[5].value,
                 CO2: datos[6].value,
-                Automatic: datos[7].value
+                Automatic: datos[7].value,
+                Lux: datos[10].value
             },
             datetime: {
                 Time: moment().format("h:mm:ss"),
