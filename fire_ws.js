@@ -1,3 +1,5 @@
+//firebase database:remove /anaquel --project green-energy
+
 var admin = require('firebase-admin');
 var serviceAccount = require('./green-energy-4334a-firebase-adminsdk-svgj4-1016778b5e.json');
 
@@ -24,7 +26,7 @@ Date.prototype.timeNow = function() {
 
 var mqtt = require("mqtt");
 
-var server = "192.168.0.89";
+var server = "192.168.0.26";
 var port = "1883";
 var datos = [
     { topic: "anaquel/ws/led", value: "" },

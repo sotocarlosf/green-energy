@@ -24,7 +24,7 @@ Date.prototype.timeNow = function() {
 
 var mqtt = require("mqtt");
 
-var server = "192.168.0.22";
+var server = "192.168.0.26";
 var port = "1883";
 var datos = {
     fs: {
